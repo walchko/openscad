@@ -25,10 +25,12 @@ module ttext(txt,fontsize=8){
 module ring(){
     dia = 40+4;
     thick = 3+4;
-    difference(){
+    difference()
+    {
         cylinder(d=dia, h=thick, center=true);      // main ring
         cylinder(d=dia-6, h=thick*2, center=true);  // inner hole
-        cylinder(d=dia-2, h=3+2, center=true);      // coin grove
+        cylinder(d=dia-3.25, h=3+0.25, center=true);      // coin grove
+        translate([0,0,-thick/2]) cube([2*dia, 2*dia,thick], center=true); // cut in half
     }
 }
 
@@ -51,9 +53,10 @@ module all(){
     }
 }
 
-all();
+//color("green", 0.5) all();
 //translate([0,0,40]) rotate([90,0,0]) coin();
 translate([0,0,40]) rotate([90,0,0]) ring();
+//translate([0,0,40]) rotate([-90,0,0]) ring();
 
 //translate([0,0,30]) rotate([90,0,0]) cylinder(h=50,d=45,center=true);
 
