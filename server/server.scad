@@ -4,11 +4,11 @@ use <lib/pi.scad>;
 
 
 module M3(){
-    cylinder(h=40, d=3.3, center=true);
+    cylinder(h=40, d=3.5, center=true);
 }
 
 module M2(){
-    cylinder(h=40, d=2.4, center=true);
+    cylinder(h=40, d=2.6, center=true);
 }
 
 module base(width, length, thick, dia){
@@ -36,7 +36,7 @@ module vcut(dia, length){
 
 module plate(width, length, thick=3){
     dia = 4;
-    scale = 0.6;
+    scale = 0.63;
     xbase = (width - 49)/2;
     ybase = (length-58)/2;
 
@@ -64,7 +64,9 @@ module plate(width, length, thick=3){
         // HD mounting holes
         hdw = 61.72;
         hdl = 76.6;
-        translate([dia/2,dia/2,0]){
+        hdx = (width - hdw)/2;
+        hdy = (length - hdl)/2;
+        translate([hdx,hdy,0]){
             translate([0,0,0]) M3();
             translate([hdw,0,0]) M3();
             translate([hdw,hdl,0]) M3();
@@ -80,13 +82,13 @@ module plate(width, length, thick=3){
         }
 
         // horizontal cuts
-        cw = 40;
+        cw = 30;
         cd = 8;
         translate([(width-cw)/2,cd/1.5,0]) hcut(cd, cw);
         translate([(width-cw)/2,length-cd/1.5,0]) hcut(cd, cw);
 
         // vertical cuts
-        cl = 48;
+        cl = 38;
         cld = 6;
         translate([cld/1.5,(length-cl)/2,0]) vcut(cld, cl);
         translate([width-cld/1.5,(length-cl)/2,0]) vcut(cld, cl);
@@ -118,8 +120,8 @@ module plate(width, length, thick=3){
 
 }
 
-width = 67;
-height = 85;
+width = 65;
+height = 80;
 thickness = 4;
 plate(width, height, thickness);
 
