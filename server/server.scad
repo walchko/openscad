@@ -36,9 +36,9 @@ module vcut(dia, length){
 
 module plate(width, length, thick=3){
     dia = 4;
-    scale = 0.65;
-    xbase = 6.4;
-    ybase = 9.3;
+    scale = 0.6;
+    xbase = (width - 49)/2;
+    ybase = (length-58)/2;
 
     dx = (1-scale)*width/2;
     dy = (1-scale)*length/2;
@@ -47,10 +47,10 @@ module plate(width, length, thick=3){
         union(){
             base(width, length, thick, dia);
             // stand-offs
-            translate([xbase, ybase, 0]){
-                sd1 = 8;
-                sd2 = 4;
-                up = 8;
+            translate([xbase, ybase, thick-1]){
+                sd1 = 13;
+                sd2 = 5;
+                up = 6;
                 translate([0,0,0]) cylinder(h=up, d1=sd1,d2=sd2);
                 translate([49,0,0]) cylinder(h=up, d1=sd1, d2=sd2);
                 translate([49,58,0]) cylinder(h=up, d1=sd1, d2=sd2);
@@ -59,13 +59,17 @@ module plate(width, length, thick=3){
         }
 
         // center cut
-        translate([dx,dy,-thick/2]) base(scale*width, scale*length, thick*2, dia);
+        translate([dx,dy,-thick/2]) base(scale*width, scale*length, thick*5, dia);
 
-        // mounting holes
-        translate([dia/2,dia/2,0]) M3();
-        translate([width-dia/2,dia/2,0]) M3();
-        translate([width-dia/2,length-dia/2,0]) M3();
-        translate([dia/2,length-dia/2,0]) M3();
+        // HD mounting holes
+        hdw = 61.72;
+        hdl = 76.6;
+        translate([dia/2,dia/2,0]){
+            translate([0,0,0]) M3();
+            translate([hdw,0,0]) M3();
+            translate([hdw,hdl,0]) M3();
+            translate([0,hdl,0]) M3();
+        }
 
         // pi mounting holes
         translate([xbase, ybase, 0]){
@@ -76,21 +80,21 @@ module plate(width, length, thick=3){
         }
 
         // horizontal cuts
-        cw = 35;
+        cw = 40;
         cd = 8;
-        translate([(width-cw)/2,cd/2,0]) hcut(cd, cw);
-        translate([(width-cw)/2,length-cd/2,0]) hcut(cd, cw);
+        translate([(width-cw)/2,cd/1.5,0]) hcut(cd, cw);
+        translate([(width-cw)/2,length-cd/1.5,0]) hcut(cd, cw);
 
         // vertical cuts
-        cl = 40;
+        cl = 48;
         cld = 6;
-        translate([cld/2,(length-cl)/2,0]) vcut(cld, cl);
-        translate([width-cld/2,(length-cl)/2,0]) vcut(cld, cl);
+        translate([cld/1.5,(length-cl)/2,0]) vcut(cld, cl);
+        translate([width-cld/1.5,(length-cl)/2,0]) vcut(cld, cl);
 
         // nut cutouts
         translate([xbase, ybase, -1]){
             sdia = 6;
-            up = 3;
+            up = 4;
             translate([0,0,0]) cylinder(h=up, d=sdia);
             translate([49,0,0]) cylinder(h=up, d=sdia);
             translate([49,58,0]) cylinder(h=up, d=sdia);
@@ -114,8 +118,8 @@ module plate(width, length, thick=3){
 
 }
 
-width = 61.72;
-height = 76.6;
+width = 67;
+height = 85;
 thickness = 4;
 plate(width, height, thickness);
 
